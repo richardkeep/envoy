@@ -123,6 +123,10 @@ class RunCommand extends SymfonyCommand
      */
     protected function runTask($container, $task)
     {
+        foreach ($container->getBeforeCallbacks() as $callback) {
+            call_user_func($callback, $task);
+        }
+
         $macroOptions = $container->getMacroOptions($this->argument('task'));
 
         $confirm = $container->getTask($task, $macroOptions)->confirm;
